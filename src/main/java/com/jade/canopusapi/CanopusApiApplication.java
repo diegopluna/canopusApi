@@ -13,7 +13,7 @@ public class CanopusApiApplication {
 		SpringApplication.run(CanopusApiApplication.class, args);
 	}
 
-	@GetMapping("/api")
+	@GetMapping("/")
 	public String hello() {
 		return "Hello World";
 	}
