@@ -1,7 +1,7 @@
-C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\controller\ChatController.java
-C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\controller\WebSocketEventListener.java
-C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\model\ChatMessage.java
-C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\CanopusApiApplication.java
-C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\config\WebSocketConfig.java
-C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\model\MessageType.java
-C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\ServletInitializer.java
+/Users/diegoluna/IdeaProjects/canopusApi/src/main/java/com/jade/canopusapi/controller/ChatController.java
+/Users/diegoluna/IdeaProjects/canopusApi/src/main/java/com/jade/canopusapi/model/ChatMessage.java
+/Users/diegoluna/IdeaProjects/canopusApi/src/main/java/com/jade/canopusapi/ServletInitializer.java
+/Users/diegoluna/IdeaProjects/canopusApi/src/main/java/com/jade/canopusapi/config/WebSocketConfig.java
+/Users/diegoluna/IdeaProjects/canopusApi/src/main/java/com/jade/canopusapi/CanopusApiApplication.java
+/Users/diegoluna/IdeaProjects/canopusApi/src/main/java/com/jade/canopusapi/controller/WebSocketEventListener.java
+/Users/diegoluna/IdeaProjects/canopusApi/src/main/java/com/jade/canopusapi/model/MessageType.java
