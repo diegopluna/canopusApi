@@ -13,6 +13,8 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 @Component
 public class WebSocketEventListener {
@@ -36,7 +38,7 @@ public class WebSocketEventListener {
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(MessageType.LEAVE);
             chatMessage.setSender(username);
-            chatMessage.setTimeSent(LocalDateTime.now());
+            chatMessage.setTimestamp(ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime());
 
             messagingTemplate.convertAndSend("/topic/public", chatMessage);
         }
