@@ -1,7 +1,7 @@
 package com.jade.canopusapi.model;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jade.canopusapi.model.utils.MessageType;
 import lombok.Getter;
 import lombok.Setter;
 

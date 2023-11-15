@@ -1,7 +1,7 @@
 package com.jade.canopusapi.controller;
 
 import com.jade.canopusapi.model.ChatMessage;
-import com.jade.canopusapi.model.MessageType;
+import com.jade.canopusapi.model.utils.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 

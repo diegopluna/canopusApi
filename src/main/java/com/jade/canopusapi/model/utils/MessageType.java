@@ -1,4 +1,4 @@
-package com.jade.canopusapi.model;
+package com.jade.canopusapi.model.utils;
 
 public enum MessageType {
     CHAT,
