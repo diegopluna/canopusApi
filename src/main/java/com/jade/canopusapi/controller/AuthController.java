@@ -80,4 +80,13 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/resend_code")
+    public ResponseEntity<?> resendCode(@Param("email") String email) throws MessagingException, UnsupportedEncodingException {
+        if (userDAO.resendVerificationEmail(email)) {
+            return ResponseEntity.ok().body(new MessageResponse("Verification email sent successfully!"));
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found or already verified."));
+        }
+    }
+
 }

@@ -89,4 +89,15 @@ public class UserDAO {
             return true;
         }
     }
+
+    public boolean resendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException {
+        User user = userRepository.findByEmail(email);
+        if (user != null && !user.getVerified()) {
+            String randomCode = UUID.randomUUID().toString();
+            user.setVerificationCode(randomCode);
+            sendVerificationEmail(user);
+            return true;
+        }
+        return false;
+    }
 }
