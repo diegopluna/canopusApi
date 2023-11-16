@@ -1,7 +1,7 @@
 package com.jade.canopusapi.controller;
 
-import com.jade.canopusapi.model.ChatMessage;
-import com.jade.canopusapi.model.utils.MessageType;
+import com.jade.canopusapi.models.ChatMessage;
+import com.jade.canopusapi.models.utils.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
