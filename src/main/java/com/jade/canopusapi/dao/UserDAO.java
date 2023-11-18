@@ -46,6 +46,9 @@ public class UserDAO {
     @Value("${site.url}")
     private String siteURL;
 
+    @Value("${api.url}")
+    private String apiURL;
+
 
 
     public ResponseEntity<?> register(User user) throws MessagingException, UnsupportedEncodingException {
@@ -71,7 +74,7 @@ public class UserDAO {
     private void sendVerificationEmail(User user) throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String senderName = "Canopus";
-        String subject = "Prezado [[nome]],<br>";
+        String subject = "Verificação de conta Canopus";
         String content = "Dear [[name]],<br>"
                 + "Por favor, clique no link abaixo para verificar sua inscrição:<br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFICAR</a></h3>"
@@ -132,7 +135,7 @@ public class UserDAO {
         Path imagePath = Paths.get(folderPath, fileName);
         Files.write(imagePath, decodedImage);
 
-        return siteURL + "/media/" + fileName;
+        return apiURL + "/media/" + fileName;
 
     }
 }
