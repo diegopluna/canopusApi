@@ -92,9 +92,9 @@ public class AuthController {
     @PostMapping("/verify")
     public ResponseEntity<?> verifyUser(@Param("code") String code) {
         if (userDAO.verify(code)) {
-            return ResponseEntity.ok().body(new MessageResponse("Account verified successfully!"));
+            return ResponseEntity.ok().body(new MessageResponse("Conta verificada com sucesso!"));
         } else {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Failed to verify account."));
+            return ResponseEntity.badRequest().body(new MessageResponse("Falha em verificar a conta."));
         }
     }
 

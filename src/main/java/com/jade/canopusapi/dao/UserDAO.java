@@ -71,11 +71,11 @@ public class UserDAO {
     private void sendVerificationEmail(User user) throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String senderName = "Canopus";
-        String subject = "Please verify your registration";
+        String subject = "Prezado [[nome]],<br>";
         String content = "Dear [[name]],<br>"
-                + "Please click the link below to verify your registration:<br>"
-                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
-                + "Thank you,<br>"
+                + "Por favor, clique no link abaixo para verificar sua inscrição:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFICAR</a></h3>"
+                + "Obrigado,<br>"
                 + "Canopus.";
 
         MimeMessage message = mailSender.createMimeMessage();

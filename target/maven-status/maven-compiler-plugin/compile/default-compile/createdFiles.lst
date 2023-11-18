@@ -18,6 +18,7 @@ com/jade/canopusapi/controller/WebSocketEventListener.class
 com/jade/canopusapi/models/utils/Address.class
 com/jade/canopusapi/models/ChatMessage.class
 com/jade/canopusapi/models/School.class
+com/jade/canopusapi/config/WebConfig.class
 com/jade/canopusapi/dao/UserDAO.class
 com/jade/canopusapi/payload/response/MessageResponse.class
 com/jade/canopusapi/payload/request/SignUpRequest.class
