@@ -4,6 +4,8 @@ import com.jade.canopusapi.models.User;
 import com.jade.canopusapi.models.utils.UserRole;
 import com.jade.canopusapi.payload.response.MessageResponse;
 import com.jade.canopusapi.repository.UserRepository;
+import com.jade.canopusapi.security.services.UserDetailsImpl;
+import com.jade.canopusapi.security.services.UserDetailsServiceImpl;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +52,6 @@ public class UserDAO {
     @Value("${api.url}")
     private String apiURL;
 
-
-
     public ResponseEntity<?> register(User user) throws MessagingException, UnsupportedEncodingException {
         if (userRepository.existsByEmail(user.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Já existe uma conta com este e-mail!"));
@@ -75,7 +76,7 @@ public class UserDAO {
         String toAddress = user.getEmail();
         String senderName = "Canopus";
         String subject = "Verificação de conta Canopus";
-        String content = "Dear [[name]],<br>"
+        String content = "Caro [[name]],<br>"
                 + "Por favor, clique no link abaixo para verificar sua inscrição:<br>"
                 + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFICAR</a></h3>"
                 + "Obrigado,<br>"
@@ -106,7 +107,7 @@ public class UserDAO {
     }
 
     public boolean resendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
         if (user != null && !user.getVerified()) {
             String randomCode = UUID.randomUUID().toString();
             user.setVerificationCode(randomCode);

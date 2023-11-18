@@ -3,22 +3,38 @@ package com.jade.canopusapi.controller;
 
 import com.jade.canopusapi.controller.util.AddressRetriever;
 import com.jade.canopusapi.controller.util.Validator;
+import com.jade.canopusapi.exception.TokenRefreshException;
+import com.jade.canopusapi.models.RefreshToken;
 import com.jade.canopusapi.models.User;
 import com.jade.canopusapi.models.utils.Address;
+import com.jade.canopusapi.payload.request.SignInRequest;
 import com.jade.canopusapi.payload.request.SignUpRequest;
+import com.jade.canopusapi.payload.request.TokenRefreshRequest;
+import com.jade.canopusapi.payload.response.JwtResponse;
 import com.jade.canopusapi.payload.response.MessageResponse;
 import com.jade.canopusapi.dao.UserDAO;
+import com.jade.canopusapi.payload.response.TokenRefreshResponse;
+import com.jade.canopusapi.security.jwt.JwtUtils;
+import com.jade.canopusapi.security.services.RefreshTokenService;
+import com.jade.canopusapi.security.services.UserDetailsImpl;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController()
@@ -26,7 +42,27 @@ import java.util.UUID;
 public class AuthController {
 
     @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody SignInRequest request) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        String jwt = jwtUtils.generateJwtToken(userDetails);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken()));
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest request) throws MessagingException, UnsupportedEncodingException {
@@ -105,6 +141,30 @@ public class AuthController {
         } else {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: User not found or already verified."));
         }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
+        String requestRefresh = request.getRefresh();
+
+
+        return refreshTokenService.findByToken(requestRefresh).map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUser(UserDetailsImpl.build(user));
+                    String newRefresh = refreshTokenService.createRefreshToken(user.getId()).getToken();
+                    refreshTokenService.deleteByToken(requestRefresh);
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, newRefresh));
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefresh,"Refresh token is not in database!"));
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity<?> logoutUser() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = userDetails.getId();
+        refreshTokenService.deleteByUserId(userId);
+        return ResponseEntity.ok(new MessageResponse("Log out successful!"));
     }
 
 }

@@ -47,8 +47,6 @@ public class User {
 
     private Boolean verified;
 
-//    private byte[] avatarData;
-
     @NotBlank
     @Size(max = 120)
     private String password;
