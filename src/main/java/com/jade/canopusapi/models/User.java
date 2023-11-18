@@ -62,12 +62,14 @@ public class User {
     private Collection<Goal> interests;
 
     @Embedded
-    @NotBlank
     private Address address;
 
     //verification code for email verification
-    @Column(name = "verification_code", length = 32)
+    @Column(name = "verification_code", length = 36)
     private String verificationCode;
+
+    @Column(name = "avatar_url")
+    private String avatar;
 
     public User(String fullName, String email, String phoneNumber, String password, Collection<Goal> interests, Address address) {
         this.fullName = fullName;
@@ -76,5 +78,15 @@ public class User {
         this.password = password;
         this.interests = interests;
         this.address = address;
+    }
+
+    public User(String fullName, String email, String phoneNumber, String password, Collection<Goal> interests, Address address, String avatar) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.interests = interests;
+        this.address = address;
+        this.avatar = avatar;
     }
 }

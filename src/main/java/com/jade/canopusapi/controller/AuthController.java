@@ -15,7 +15,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+import java.util.UUID;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController()
@@ -29,37 +32,48 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest request) throws MessagingException, UnsupportedEncodingException {
 
             if (!Validator.isValidFullName(request.getFullName())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: Full name must be between 5 and 100 characters, contain only letters, and have a valid first and last name format."));
+                return ResponseEntity.badRequest().body(new MessageResponse("Nome completo deve ter entre 5 e 100 caracteres, conter apenas letras e ter um primeiro nome e sobrenome."));
             }
 
             if (!Validator.isValidEmail(request.getEmail())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: The provided email address does not match the expected format."));
+                return ResponseEntity.badRequest().body(new MessageResponse("E-mail inválido"));
             }
 
             if (!Validator.isValidPhoneNumber(request.getPhoneNumber())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid phone number format"));
+                return ResponseEntity.badRequest().body(new MessageResponse("Telefone inválido"));
             }
 
             if (!Validator.isValidPassword(request.getPassword())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: The password must be between 6 and 40 characters."));
+                return ResponseEntity.badRequest().body(new MessageResponse("A senha deve ter entre 6 e 40 caracteres."));
             }
 
             if (!Validator.isValidInterests(request.getInterests())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: The provided interests collection contains invalid values."));
+                return ResponseEntity.badRequest().body(new MessageResponse("Os interesses possuem valores inválidos."));
             }
 
             if (!Validator.isValidCep(request.getCep())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: The provided CEP is invalid."));
+                return ResponseEntity.badRequest().body(new MessageResponse("O CEP fornecido é inválido."));
             }
 
             if (!Validator.isValidStreetNumber(request.getStreetNumber())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: The provided street number is an invalid value."));
+                return ResponseEntity.badRequest().body(new MessageResponse("O número de rua está em um formato inválido."));
             }
+
+            String avatarBase64 = request.getAvatar();
+            String imageURL = null;
+            if (avatarBase64 != null) {
+                try {
+                    imageURL = userDAO.saveImage(avatarBase64);
+                } catch (IOException e) {
+                    return ResponseEntity.badRequest().body(new MessageResponse("Não foi possível salvar a imagem"));
+                }
+            }
+
 
             Address address = AddressRetriever.retrieveAddressByCep(request.getCep());
 
             if (address == null) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Error: Error connecting to the CEP retrieval API. Try again later."));
+                return ResponseEntity.badRequest().body(new MessageResponse("Erro ao conectar ao serviço de CEP. Favor tentar novamente mais tarde"));
             }
             address.setStreetNumber(request.getStreetNumber());
             if (request.getComplement() != null) {
@@ -67,6 +81,10 @@ public class AuthController {
             }
 
             User user = new User(request.getFullName(), request.getEmail(), request.getPhoneNumber(), request.getPassword(), request.getInterests(), address);
+
+            if (imageURL != null) {
+                user.setAvatar(imageURL);
+            }
 
             return userDAO.register(user);
     }

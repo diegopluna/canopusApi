@@ -28,7 +28,7 @@ public class Validator {
         }
 
         for (String part : nameParts) {
-            if (!part.matches("[A-Za-z\\-]+")) {
+            if (!part.matches("[a-zA-ZÀ-ÖÙ-öù-ÿĀ-žḀ\\-']+")) {
                 return false;
             }
         }

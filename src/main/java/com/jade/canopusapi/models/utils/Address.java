@@ -24,10 +24,8 @@ public class Address {
     @NotBlank
     private String municipality;
 
-    @NotBlank
     private String district;
 
-    @NotBlank
     private String street;
 
     @Min(1)
