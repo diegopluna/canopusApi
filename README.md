@@ -51,7 +51,7 @@ mvn install
 mvn spring-boot:run
 ```
 
-A aplicação estará disponível em http://localhost:3000 para o frontend e http://localhost:8080 para o backend.
+A aplicação estará disponível em http://localhost:5173 para o frontend e http://localhost:8080 para o backend.
 
 ## Issues e Sugestões
 Encontrou um bug ou tem uma ideia para melhorar a aplicação? Por favor, abra uma issue no GitHub.
