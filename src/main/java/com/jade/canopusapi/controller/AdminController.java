@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController()
 @RequestMapping("/admin")
 public class AdminController {
