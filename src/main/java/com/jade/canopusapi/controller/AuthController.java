@@ -7,6 +7,7 @@ import com.jade.canopusapi.exception.TokenRefreshException;
 import com.jade.canopusapi.models.RefreshToken;
 import com.jade.canopusapi.models.User;
 import com.jade.canopusapi.models.utils.Address;
+import com.jade.canopusapi.payload.request.FinishAdminCreationRequest;
 import com.jade.canopusapi.payload.request.SignInRequest;
 import com.jade.canopusapi.payload.request.SignUpRequest;
 import com.jade.canopusapi.payload.request.TokenRefreshRequest;
@@ -132,6 +133,54 @@ public class AuthController {
         } else {
             return ResponseEntity.badRequest().body(new MessageResponse("Falha em verificar a conta."));
         }
+    }
+
+    @PostMapping("/verify_create")
+    public ResponseEntity<?> finishAdminCreation(@Param("code") String code, @Valid @RequestBody FinishAdminCreationRequest request) {
+        if (!Validator.isValidPassword(request.getPassword())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("A senha deve ter entre 6 e 40 caracteres."));
+        }
+        if (!Validator.isValidCep(request.getCep())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("O CEP fornecido é inválido."));
+        }
+
+        if (!Validator.isValidStreetNumber(request.getStreetNumber())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("O número de rua está em um formato inválido."));
+        }
+
+        User user = userDAO.findUser(code);
+        if (user == null ||user.getVerified()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Usuário já existe ou se econtra verificado"));
+        }
+
+        String avatarBase64 = request.getAvatar();
+        String imageURL = null;
+        if (avatarBase64 != null) {
+            try {
+                imageURL = userDAO.saveImage(avatarBase64);
+            } catch (IOException e) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Não foi possível salvar a imagem"));
+            }
+        }
+
+        Address address = AddressRetriever.retrieveAddressByCep(request.getCep());
+
+        if (address == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Erro ao conectar ao serviço de CEP. Favor tentar novamente mais tarde"));
+        }
+        address.setStreetNumber(request.getStreetNumber());
+        if (request.getComplement() != null) {
+            address.setComplement(request.getComplement());
+        }
+
+        user.setPassword(request.getPassword());
+        user.setAddress(address);
+        if (imageURL != null) {
+            user.setAvatar(imageURL);
+        }
+        userDAO.verifyAdmin(user);
+        return ResponseEntity.ok().body(new MessageResponse("Usuário verificado com sucesso"));
+
     }
 
     @PostMapping("/resend_code")

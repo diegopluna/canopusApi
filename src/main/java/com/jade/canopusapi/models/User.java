@@ -87,4 +87,12 @@ public class User {
         this.address = address;
         this.avatar = avatar;
     }
+
+    public User(String fullName, String email, String phoneNumber, UserRole role, Collection<Goal> interests) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+        this.interests = interests;
+    }
 }

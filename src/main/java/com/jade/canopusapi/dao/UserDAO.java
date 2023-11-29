@@ -106,6 +106,14 @@ public class UserDAO {
         }
     }
 
+    public void verifyAdmin(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setVerificationCode(null);
+        user.setVerified(true);
+        userRepository.save(user);
+    }
+
     public boolean resendVerificationEmail(String email) throws MessagingException, UnsupportedEncodingException {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
         if (user != null && !user.getVerified()) {
@@ -116,6 +124,10 @@ public class UserDAO {
             return true;
         }
         return false;
+    }
+
+    public User findUser(String code) {
+        return userRepository.findByVerificationCode(code);
     }
 
     public String saveImage(String avatarBase64) throws IOException {
@@ -138,5 +150,42 @@ public class UserDAO {
 
         return apiURL + "/media/" + fileName;
 
+    }
+
+    public ResponseEntity<?> registerMod(User user) throws MessagingException, UnsupportedEncodingException {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Já existe uma conta com este e-mail!"));
+        }
+        if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Já existe uma conta com este telefone!"));
+        }
+        String randomCode = UUID.randomUUID().toString();
+        user.setVerificationCode(randomCode);
+        user.setVerified(false);
+        userRepository.save(user);
+        sendAdminVerificationEmail(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MessageResponse("Usuário cadastrado com sucesso!"));
+    }
+
+    private void sendAdminVerificationEmail(User user) throws MessagingException, UnsupportedEncodingException {
+        String toAddress = user.getEmail();
+        String senderName = "Canopus";
+        String subject = "Convite para ser [[role]] Canopus";
+        String content = "Caro [[name]],<br>"
+                + "Por favor, clique no link abaixo para completar sua inscrição:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">COMPLETAR CADASTRO</a></h3>"
+                + "Obrigado,<br>"
+                + "Canopus.";
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        subject = subject.replace("[[role]]", user.getRole().toString());
+        helper.setSubject(subject);
+        content = content.replace("[[name]]", user.getFullName());
+        String verifyURL = siteURL + "/verify_create?code=" + user.getVerificationCode();
+        content = content.replace("[[URL]]", verifyURL);
+        helper.setText(content, true);
+        mailSender.send(message);
     }
 }
