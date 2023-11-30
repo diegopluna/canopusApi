@@ -2,6 +2,7 @@ C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\securit
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\controller\ChatController.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\config\WebConfig.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\payload\request\TokenRefreshRequest.java
+C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\controller\SchoolController.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\config\WebSocketConfig.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\controller\AdminController.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\repository\UserRepository.java
@@ -13,6 +14,7 @@ C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\controller\util\Validator.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\controller\WebSocketEventListener.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\utils\Goal.java
+C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\repository\SchoolRepository.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\CanopusApiApplication.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\utils\Address.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\utils\MessageType.java
@@ -23,6 +25,7 @@ C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\controller\AuthController.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\security\services\UserDetailsServiceImpl.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\payload\request\SignInRequest.java
+C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\dao\SchoolDAO.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\dao\UserDAO.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\ChatMessage.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\security\jwt\JwtUtils.java
@@ -34,6 +37,7 @@ C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\payload\response\TokenRefreshResponse.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\User.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\payload\response\MessageResponse.java
+C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\payload\request\CreateSchoolRequest.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\models\School.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\exception\TokenRefreshException.java
 C:\Users\diego\IdeaProjects\canopusApi\src\main\java\com\jade\canopusapi\security\jwt\AuthTokenFilter.java

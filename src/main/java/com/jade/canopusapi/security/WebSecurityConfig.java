@@ -67,6 +67,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/media/**").permitAll()
                                 .requestMatchers("/ws/**").permitAll()
                                 .requestMatchers("/admin/**").permitAll()
+                                .requestMatchers("/school/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 

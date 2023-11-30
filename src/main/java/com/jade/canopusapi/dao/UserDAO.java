@@ -130,6 +130,10 @@ public class UserDAO {
         return userRepository.findByVerificationCode(code);
     }
 
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
     public String saveImage(String avatarBase64) throws IOException {
         String[] parts = avatarBase64.split(",");
         if (parts.length != 2) {
