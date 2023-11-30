@@ -66,6 +66,7 @@ public class User {
 
     //verification code for email verification
     @Column(name = "verification_code", length = 36)
+    @JsonIgnore
     private String verificationCode;
 
     @Column(name = "avatar_url")
