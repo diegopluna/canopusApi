@@ -3,11 +3,13 @@ com\jade\canopusapi\controller\util\AddressRetriever.class
 com\jade\canopusapi\dao\SchoolDAO.class
 com\jade\canopusapi\models\RefreshToken.class
 com\jade\canopusapi\CanopusApiApplication.class
+com\jade\canopusapi\repository\ProjectRepository.class
 com\jade\canopusapi\models\Project.class
 com\jade\canopusapi\payload\response\MessageResponse.class
 com\jade\canopusapi\controller\ChatController.class
 com\jade\canopusapi\models\utils\UserRole.class
 com\jade\canopusapi\repository\UserRepository.class
+com\jade\canopusapi\dao\ProjectDAO.class
 com\jade\canopusapi\controller\AdminController.class
 com\jade\canopusapi\controller\AuthController.class
 com\jade\canopusapi\exception\TokenRefreshException.class
@@ -25,6 +27,7 @@ com\jade\canopusapi\ServletInitializer.class
 com\jade\canopusapi\security\WebSecurityConfig.class
 com\jade\canopusapi\models\utils\SchoolType.class
 com\jade\canopusapi\models\utils\MessageType.class
+com\jade\canopusapi\payload\request\CreateProjectRequest.class
 com\jade\canopusapi\payload\response\JwtResponse.class
 com\jade\canopusapi\models\User.class
 com\jade\canopusapi\config\WebConfig.class
@@ -43,3 +46,4 @@ com\jade\canopusapi\payload\request\CreateAdminRequest.class
 com\jade\canopusapi\repository\RefreshTokenRepository.class
 com\jade\canopusapi\controller\WebSocketEventListener.class
 com\jade\canopusapi\dao\UserDAO.class
+com\jade\canopusapi\controller\ProjectController.class

@@ -130,6 +130,10 @@ public class UserDAO {
         return userRepository.findByVerificationCode(code);
     }
 
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }

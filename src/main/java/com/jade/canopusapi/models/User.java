@@ -1,5 +1,6 @@
 package com.jade.canopusapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jade.canopusapi.models.utils.Address;
 import com.jade.canopusapi.models.utils.Goal;
 import com.jade.canopusapi.models.utils.UserRole;
@@ -49,6 +50,7 @@ public class User {
 
     @NotBlank
     @Size(max = 120)
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)

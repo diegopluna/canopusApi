@@ -10,10 +10,12 @@ import com.jade.canopusapi.models.User;
 import com.jade.canopusapi.models.utils.Address;
 import com.jade.canopusapi.payload.request.CreateSchoolRequest;
 import com.jade.canopusapi.payload.response.MessageResponse;
+import com.jade.canopusapi.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -89,9 +91,11 @@ public class SchoolController {
         }
     }
 
-    @GetMapping("/rep/{id}")
+    @GetMapping("/rep")
     @PreAuthorize("hasAuthority('REP_ESCOLA')")
-    public ResponseEntity<?> getRepSchools(@PathVariable Long id) {
+    public ResponseEntity<?> getRepSchools() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long id = userDetails.getId();
         List<School> schools = schoolDAO.getAllByUserId(id);
         if (!schools.isEmpty()) {
             return ResponseEntity.ok(schools);
