@@ -1,8 +1,9 @@
 # Projeto Canopus - Gestão de Projetos Voluntários para Escolas Públicas
 ## Grupo 9 - Jade
 
+
 ## Visão Geral
-Bem-vindo ao repositório do MVP da aplicação web de gestão de projetos para a ONG "Tribo do Bem". Esta aplicação tem como objetivo facilitar a colaboração e organização de voluntários que trabalham em projetos voltados para escolas públicas no Brasil. O sistema é construído utilizando React para o frontend, com componentes Shadcn e customizados, e Spring Boot para o backend.
+Bem-vindo ao repositório do MVP da aplicação web de gestão de projetos para a ONG "Tribo do Bem". Esta aplicação tem como objetivo facilitar a colaboração e organização de voluntários que trabalham em projetos voltados para escolas públicas no Brasil. O sistema é construído utilizando React e Vite para o frontend e Spring Boot para o backend.
 
 
 ## Funcionalidades Principais
@@ -38,19 +39,17 @@ Certifique-se de ter o Node.js, npm, e Maven instalados em sua máquina.
 #### Disponível em: https://github.com/diegopluna/canopus-web
 
 ```bash
-cd frontend
 npm install
 npm start
 ```
 
 ### Backend (Spring Boot)
 ``` bash
-Copy code
-cd backend
+mkdir media
 mvn install
 mvn spring-boot:run
 ```
-
+Não se esqueça de ir para o arquivo application.properties e ver quais variáveis de ambiente precisam ser configuradas em um arquivo .env antes de rodar.
 A aplicação estará disponível em http://localhost:5173 para o frontend e http://localhost:8080 para o backend.
 
 ## Issues e Sugestões
