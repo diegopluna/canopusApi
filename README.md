@@ -40,7 +40,7 @@ Certifique-se de ter o Node.js, npm, e Maven instalados em sua máquina.
 
 ```bash
 npm install
-npm start
+npm run dev
 ```
 
 ### Backend (Spring Boot)
@@ -50,6 +50,8 @@ mvn install
 mvn spring-boot:run
 ```
 Não se esqueça de ir para o arquivo application.properties e ver quais variáveis de ambiente precisam ser configuradas em um arquivo .env antes de rodar.
+Também é necessário comentar as linhas relacionadas a exposição da porta 443 e de arquivo SSL, visto que essas configuracoes são para o ambiente de produção.
+
 A aplicação estará disponível em http://localhost:5173 para o frontend e http://localhost:8080 para o backend.
 
 ## Issues e Sugestões
