@@ -28,7 +28,7 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ADMINISTRADOR')")
     @PostMapping("/create")
-    public ResponseEntity<?> createAdminOrMod(@Valid @RequestBody CreateAdminRequest request) throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<?> createUser(@Valid @RequestBody CreateAdminRequest request) throws MessagingException, UnsupportedEncodingException {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (userDetails.getRole() != UserRole.ADMINISTRADOR) {
             return ResponseEntity.status(401).body(new MessageResponse("Usuário não autorizado"));

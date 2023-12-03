@@ -7,8 +7,10 @@ import com.jade.canopusapi.dao.UserDAO;
 import com.jade.canopusapi.models.Project;
 import com.jade.canopusapi.models.School;
 import com.jade.canopusapi.models.User;
+import com.jade.canopusapi.models.utils.UserRole;
 import com.jade.canopusapi.payload.request.CreateProjectRequest;
 import com.jade.canopusapi.payload.response.MessageResponse;
+import com.jade.canopusapi.payload.response.ProjectResponse;
 import com.jade.canopusapi.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +84,17 @@ public class ProjectController {
         }
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('EMBAIXADOR') or hasAuthority('ADMINISTRADOR') or hasAuthority('REP_ESCOLA') or hasAuthority('VOLUNTARIO')")
+    public ResponseEntity<?> getProjectSummary(@PathVariable Long id) {
+        Project proj = projectDAO.getProjectById(id);
+        if (proj == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Projeto não existe"));
+        }
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ProjectResponse response = new ProjectResponse(proj.getDescription(), proj.getGoals(), proj.getSchool().getName(), proj.getStartDate(), proj.getEndDate(), proj.getUpdatedAt());
+        return  ResponseEntity.ok().body(response);
+
+    }
 
 }

@@ -28,4 +28,8 @@ public class ProjectDAO {
     public List<Project> getProjectsByUserId(Long id) {
         return projectRepository.findByStakeholdersId(id);
     }
+
+    public Project getProjectById(Long id) {
+        return projectRepository.findById(id).orElse(null);
+    }
 }
